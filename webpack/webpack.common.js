@@ -2,14 +2,14 @@
  * WebPack Common
  * @type {webpack}
  */
-const webpack = require( 'webpack' );  // eslint-disable-line no-undef
-// const CleanWebpackPlugin = require( 'clean-webpack-plugin' );  // eslint-disable-line no-undef
+const webpack = require( 'webpack' );
+// const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
 
-const path = require( 'path' );  // eslint-disable-line no-undef
-const { readFileSync } = require( 'fs' );  // eslint-disable-line no-undef, no-unused-vars
+const path = require( 'path' );
+const { readFileSync } = require( 'fs' );
 
 const wpThemeRc = JSON.parse( readFileSync( './.wpthemerc', 'utf8' ) );
-const proxy = require( './webpack.utils' ); // eslint-disable-line no-undef
+const proxy = require( './webpack.utils' );
 
 module.exports = new Promise( ( resolve, reject ) => {
 	const entry = proxy.entries( wpThemeRc.entries, JSON.stringify( process.env.NODE_ENV ) );
