@@ -1,0 +1,23 @@
+{
+	"entries": [
+		{
+			"name": "blocks",
+			"js": [
+				"./assets/js/blocks"
+			],
+			"css": [
+				"./assets/css/blocks"
+			],
+			"react": true
+		},
+		{
+			"name": "frontend",
+			"js": [
+				"./assets/js/frontend"
+			],
+			"scss": [
+				"./assets/scss/frontend"
+			]
+		}
+	]
+}
