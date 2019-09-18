@@ -11,6 +11,7 @@
 		"wp": true,
 		"module":true,
 		"NODE_ENV": true,
-		"require": true
+		"require": true,
+		"process": true
 	}
 }
