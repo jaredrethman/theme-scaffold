@@ -1,18 +1,13 @@
 /**
- *
- */
-
-
-/**
  * WebPack Dev
  */
-const webpack = require( 'webpack' ); // eslint-disable-line no-undef
+const webpack = require( 'webpack' );
 
 /** Config commons */
-const merge = require( 'webpack-merge' ); // eslint-disable-line no-undef
-const common = require( './webpack.common.js' ); // eslint-disable-line no-undef
+const merge = require( 'webpack-merge' );
+const common = require( './webpack.common.js' );
 
-const isSSL = 0 < process.env.npm_lifecycle_event.indexOf( 'ssl' );  // eslint-disable-line no-undef
+const isSSL = 0 < process.env.npm_lifecycle_event.indexOf( 'ssl' );
 const publicPath = isSSL ? 'https://localhost:4000/dist/' : 'http://localhost:4000/dist/';
 
 module.exports = new Promise( ( resolve, reject ) => {
@@ -82,6 +77,7 @@ module.exports = new Promise( ( resolve, reject ) => {
 			);
 		} )
 		.catch( ( e ) => {
+			// eslint-disable-next-line no-console
 			console.log( e );
 			reject();
 		} );
