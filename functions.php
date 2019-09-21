@@ -5,24 +5,34 @@
  * @package TenUpScaffold
  */
 
-// Useful global constants.
-define( 'TENUP_SCAFFOLD_VERSION', '0.1.0' );
-define( 'TENUP_SCAFFOLD_TEMPLATE_URL', get_template_directory_uri() );
-define( 'TENUP_SCAFFOLD_PATH', get_template_directory() . '/' );
-define( 'TENUP_SCAFFOLD_INC', TENUP_SCAFFOLD_PATH . 'includes/' );
+namespace TenUpScaffold;
 
-require_once TENUP_SCAFFOLD_INC . 'core.php';
-require_once TENUP_SCAFFOLD_INC . 'overrides.php';
-require_once TENUP_SCAFFOLD_INC . 'template-tags.php';
-require_once TENUP_SCAFFOLD_INC . 'utility.php';
-require_once TENUP_SCAFFOLD_INC . 'blocks.php';
+/**
+ * Constants
+ */
+/** Runtime */
+define( __NAMESPACE__ . '\URL', trailingslashit( get_template_directory_uri() ) );
+/** Compile-time */
+const VER      = '0.1.0';
+const PATH     = __DIR__ . '/';
+const PATH_INC = PATH . 'includes/';
+
+/**
+ * Requires
+ */
+require_once PATH_INC . 'assets.php';
+require_once PATH_INC . 'core.php';
+require_once PATH_INC . 'overrides.php';
+require_once PATH_INC . 'template-tags.php';
+require_once PATH_INC . 'utility.php';
+require_once PATH_INC . 'blocks.php';
 
 // Run the setup functions.
-TenUpScaffold\Core\setup();
-TenUpScaffold\Blocks\setup();
+Core\setup();
+Blocks\setup();
 
 // Require Composer autoloader if it exists.
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+if ( file_exists( PATH . 'vendor/autoload.php' ) ) {
 	require_once 'vendor/autoload.php';
 }
 
