@@ -13,10 +13,14 @@
 
 namespace TenUpScaffold\Utility;
 
+use const TenUpScaffold\{ URL, PATH };
+
 /**
  * Extract colors from a CSS or Sass file
  *
  * @param string $path the path to your CSS variables file
+ *
+ * @return mixed
  */
 function get_colors( $path ) {
 

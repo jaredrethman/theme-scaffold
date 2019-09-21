@@ -7,6 +7,13 @@
 
 namespace TenUpScaffold\Core;
 
+use function TenUpScaffold\{
+	Assets\enqueue_script,
+	Assets\enqueue_style
+};
+
+use const TenUpScaffold\{PATH,URL};
+
 /**
  * Set up theme defaults and register supported WordPress features.
  *
@@ -37,7 +44,7 @@ function setup() {
  * @return void
  */
 function i18n() {
-	load_theme_textdomain( 'tenup-scaffold', TENUP_SCAFFOLD_PATH . '/languages' );
+	load_theme_textdomain( 'tenup-scaffold', PATH . '/languages' );
 }
 
 /**
@@ -70,22 +77,10 @@ function theme_setup() {
  */
 function scripts() {
 
-	wp_enqueue_script(
-		'frontend',
-		TENUP_SCAFFOLD_TEMPLATE_URL . '/dist/js/frontend.js',
-		[],
-		TENUP_SCAFFOLD_VERSION,
-		true
-	);
+	enqueue_script( 'frontend' );
 
 	if ( is_page_template( 'templates/page-styleguide.php' ) ) {
-		wp_enqueue_script(
-			'styleguide',
-			TENUP_SCAFFOLD_TEMPLATE_URL . '/dist/js/styleguide.js',
-			[],
-			TENUP_SCAFFOLD_VERSION,
-			true
-		);
+		enqueue_script( 'styleguide' );
 	}
 
 }
@@ -97,20 +92,10 @@ function scripts() {
  */
 function styles() {
 
-	wp_enqueue_style(
-		'styles',
-		TENUP_SCAFFOLD_TEMPLATE_URL . '/dist/css/style.css',
-		[],
-		TENUP_SCAFFOLD_VERSION
-	);
+	enqueue_style( 'style' );
 
 	if ( is_page_template( 'templates/page-styleguide.php' ) ) {
-		wp_enqueue_style(
-			'styleguide',
-			TENUP_SCAFFOLD_TEMPLATE_URL . '/dist/css/styleguide-style.css',
-			[],
-			TENUP_SCAFFOLD_VERSION
-		);
+		enqueue_style( 'styleguide-style' );
 	}
 }
 
@@ -166,5 +151,5 @@ function script_loader_tag( $tag, $handle ) {
  * @return void
  */
 function add_manifest() {
-	echo "<link rel='manifest' href='" . esc_url( TENUP_SCAFFOLD_TEMPLATE_URL . '/manifest.json' ) . "' />";
+	echo "<link rel='manifest' href='" . esc_url( URL . 'manifest.json' ) . "' />";
 }

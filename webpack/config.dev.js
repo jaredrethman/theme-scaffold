@@ -1,52 +1,42 @@
 /**
  * WebPack Dev
+ *
+ * @package TenUpScaffold
  */
-const webpack = require( 'webpack' );
 
-/** Config commons */
+/**
+ * Modules
+ */
+// NPM Modules
 const merge = require( 'webpack-merge' );
-const common = require( './webpack.common.js' );
-
-const isSSL = 0 < process.env.npm_lifecycle_event.indexOf( 'ssl' );
-const publicPath = isSSL ? 'https://localhost:4000/dist/' : 'http://localhost:4000/dist/';
+// Webpack Internal.
+const common = require( './config.common.js' );
+const { devConfig, getUrl } = require( './utils' );
 
 module.exports = new Promise( ( resolve, reject ) => {
 	common
 		.then( ( data ) => {
+
+			const { devServer, plugins } = devConfig( process );
+
 			resolve(
 				merge( data, {
 					mode: 'development',
-					devServer: {
-						headers: {
-							'Access-Control-Allow-Origin': '*',
-						},
-						port: 4000,
-						hot: true,
-						contentBase: './dist',
-					},
 					output: {
-						publicPath
+						publicPath: getUrl( 'dist/' ),
 					},
-					devtool: '#eval-source-map',
+					devServer,
+					devtool: 'source-map',
 					module: {
 						rules: [
 							/** SASS/CSS */
 							{
-								test: /\.scss$/,
+								test: /\.css$/,
 								use: [
 									{ loader: 'style-loader' },
 									{
 										loader: 'css-loader',
 										options: {
-											sourceMap: true,
-										},
-									},
-									{
-										loader: 'sass-loader',
-										options: {
-											sassOptions: {
-												includePaths: ['./assets/scss'],
-											},
 											sourceMap: true,
 										},
 									},
@@ -70,9 +60,7 @@ module.exports = new Promise( ( resolve, reject ) => {
 							}
 						],
 					},
-					plugins: [
-						new webpack.HotModuleReplacementPlugin(),
-					],
+					plugins,
 				} ),
 			);
 		} )
