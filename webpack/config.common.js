@@ -7,12 +7,13 @@
 /**
  * Modules
  */
-// NPM Modules
+// NPM Modules.
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
-// Webpack Internal.
+// Internal.
 const { proxy } = require( './utils' );
+const {NODE_ENV} = process.env;
 
 /**
  * Wrap common config inside a new Promise.
@@ -20,7 +21,7 @@ const { proxy } = require( './utils' );
  * @type {Promise<unknown>}
  */
 module.exports = new Promise( ( resolve, reject ) => {
-	const entry = proxy.entries( JSON.stringify( process.env.NODE_ENV ) );
+	const entry = proxy.entries( NODE_ENV );
 	if( 1 > Object.keys( entry ).length ){
 		reject( 'Entries cannot be empty. Check property "entries" in your wp.theme.config.js file configuration.' );
 	}
@@ -31,15 +32,15 @@ module.exports = new Promise( ( resolve, reject ) => {
 			path: path.resolve( __dirname, '../dist' ), // eslint-disable-line no-undef
 		},
 		resolve: {
-			extensions: ['.js', '.jsx', '.css'],
+			extensions: ['.js', '.css'],
 			symlinks: false,
 		},
-		// stats: wpTheme( 'stats' ),
+		stats: proxy.stats(),
 		module: {
 			rules: [
 				/** JS/JSX */
 				{
-					test: /\.(js|jsx)$/,
+					test: /\.js$/,
 					exclude: /node_modules/,
 					use: {
 						loader: 'babel-loader',
@@ -69,7 +70,7 @@ module.exports = new Promise( ( resolve, reject ) => {
 		plugins: [
 			new CleanWebpackPlugin(),
 			new webpack.DefinePlugin( {
-				NODE_ENV: JSON.stringify( process.env.NODE_ENV ), // eslint-disable-line no-undef
+				NODE_ENV: JSON.stringify( NODE_ENV ),
 			} ),
 		],
 	} );

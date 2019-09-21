@@ -1,14 +1,24 @@
-/* eslint-disable no-console */
+/**
+ * WebPack Common
+ *
+ * @package TenUpScaffold
+ */
 
-/** Config commons */
+/**
+ * Modules
+ */
+// Node Modules.
 const merge = require( 'webpack-merge' );
-
-/** Plugins */
-const common = require( './config.common.js' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-
+// Internal.
+const common = require( './config.common' );
 const {NODE_ENV} = process.env;
 
+/**
+ * Merge Config with common, resolve in new Promise.
+ *
+ * @type {Promise<unknown>}
+ */
 module.exports = new Promise( ( resolve, reject ) => {
 	common
 		.then( ( data ) => {
@@ -23,7 +33,7 @@ module.exports = new Promise( ( resolve, reject ) => {
 					devtool: 'source-map',
 					module: {
 						rules: [
-							/** SASS */
+							/** CSS */
 							{
 								test: /\.css$/,
 								use: [
@@ -43,8 +53,5 @@ module.exports = new Promise( ( resolve, reject ) => {
 				} ) // eslint-disable-line comma-dangle
 			);
 		} )
-		.catch( e => {
-			console.log( e );
-			reject();
-		} );
+		.catch( e => reject( e ) );
 } );
