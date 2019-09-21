@@ -33,8 +33,8 @@ if ( module.hot && getBlockType( BLOCK_NAME ) ) {
 
 registerBlockType(
 	BLOCK_NAME, {
-		title: __( 'KJBNKJ Block', 'clarion' ),
-		description: __( '10up Theme Scaffold example block.', 'clarion' ),
+		title: __( 'Example Block' ),
+		description: __( '10up Theme Scaffold example block.' ),
 		category: 'tenup',
 		icon: 'screenoptions',
 		attributes: {
