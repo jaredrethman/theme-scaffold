@@ -12,6 +12,7 @@
 		"module":true,
 		"NODE_ENV": true,
 		"require": true,
-		"process": true
+		"process": true,
+		"__dirname": true
 	}
 }
