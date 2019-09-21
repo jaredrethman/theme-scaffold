@@ -1,6 +1,12 @@
 {
 	"entries": [
 		{
+			"name": "style",
+			"css": [
+				"./assets/css/frontend/style.css"
+			]
+		},
+		{
 			"name": "blocks",
 			"js": [
 				"./assets/js/blocks"
@@ -14,10 +20,10 @@
 			"name": "frontend",
 			"js": [
 				"./assets/js/frontend"
-			],
-			"scss": [
-				"./assets/scss/frontend"
 			]
 		}
+	],
+	"purgeCss": [
+		"url-loader-test-png"
 	]
 }
