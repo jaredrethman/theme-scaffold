@@ -1,11 +1,11 @@
 <?php
 /**
- * Assets constants and helpers.
+ * Enqueue constants and helpers.
  *
  * @package TenUpScaffold
  */
 
-namespace TenUpScaffold\Assets;
+namespace TenUpScaffold\enqueue;
 
 use const TenUpScaffold\{
 	PATH,
@@ -43,7 +43,7 @@ define(
  *
  * @return string
  */
-function asset_path( string $name, string $ext = 'js', bool $path = false ): string {
+function path( string $name, string $ext = 'js', bool $path = false ): string {
 	$asset_loc = $path ? PATH . 'dist/' : URL . 'dist/';
 	if ( WEBPACK_DEV_SERVER['running'] ) {
 		$asset_loc = WEBPACK_DEV_SERVER['url'];
@@ -60,15 +60,15 @@ function asset_path( string $name, string $ext = 'js', bool $path = false ): str
  * @param array  $dependencies An array of wp_enqueue_style dependencies.
  * @param string $media <link> tag attribute media.
  */
-function enqueue_style( string $handle, array $dependencies = [], string $media = '' ) {
+function style( string $handle, array $dependencies = [], string $media = '' ) {
 	/** If WDS is running, CSS is injected via it's JS counterpart */
 	if ( WEBPACK_DEV_SERVER['running'] ) {
-		enqueue_script( $handle );
+		script( $handle );
 		return;
 	}
 	wp_enqueue_style(
 		$handle,
-		asset_path( $handle, 'css' ),
+		path( $handle, 'css' ),
 		$dependencies,
 		VER,
 		$media
@@ -82,10 +82,10 @@ function enqueue_style( string $handle, array $dependencies = [], string $media 
  * @param array  $dependencies An array of wp_enqueue_script dependencies.
  * @param bool   $footer wp_enqueue_script footer parameter.
  */
-function enqueue_script( string $handle, array $dependencies = [], bool $footer = true ) {
+function script( string $handle, array $dependencies = [], bool $footer = true ) {
 	wp_enqueue_script(
 		$handle,
-		asset_path( $handle ),
+		path( $handle ),
 		$dependencies,
 		VER,
 		$footer

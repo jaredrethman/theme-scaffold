@@ -7,9 +7,8 @@
 
 namespace TenUpScaffold\Blocks;
 
-use function TenUpScaffold\{
-	Assets\enqueue_script,
-	Assets\enqueue_style
+use TenUpScaffold\{
+	enqueue
 };
 
 /**
@@ -32,8 +31,8 @@ function setup() {
  * @return void
  */
 function blocks_editor_scripts() {
-	enqueue_script( 'blocks-editor', [ 'wp-data', 'wp-components', 'wp-html-entities' ], true );
-	enqueue_style( 'blocks-editor' );
+	enqueue\script( 'blocks-editor', [ 'wp-data', 'wp-components', 'wp-i18n' ], true );
+	enqueue\style( 'blocks-editor' );
 }
 
 /**

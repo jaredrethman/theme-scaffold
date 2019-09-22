@@ -7,12 +7,14 @@
 
 namespace TenUpScaffold\Core;
 
-use function TenUpScaffold\{
-	Assets\enqueue_script,
-	Assets\enqueue_style
+use TenUpScaffold\{
+	enqueue
 };
 
-use const TenUpScaffold\{PATH,URL};
+use const TenUpScaffold\{
+	PATH,
+	URL
+};
 
 /**
  * Set up theme defaults and register supported WordPress features.
@@ -26,8 +28,12 @@ function setup() {
 
 	add_action( 'after_setup_theme', $n( 'i18n' ) );
 	add_action( 'after_setup_theme', $n( 'theme_setup' ) );
+
 	add_action( 'wp_enqueue_scripts', $n( 'scripts' ) );
 	add_action( 'wp_enqueue_scripts', $n( 'styles' ) );
+	add_action( 'wp_enqueue_scripts', $n( 'styles_shared' ) );
+	add_action( 'admin_enqueue_scripts', $n( 'styles_shared' ) );
+
 	add_action( 'wp_head', $n( 'js_detection' ), 0 );
 	add_action( 'wp_head', $n( 'add_manifest' ), 10 );
 
@@ -76,13 +82,10 @@ function theme_setup() {
  * @return void
  */
 function scripts() {
-
-	enqueue_script( 'frontend' );
-
+	enqueue\script( 'frontend' );
 	if ( is_page_template( 'templates/page-styleguide.php' ) ) {
-		enqueue_script( 'styleguide' );
+		enqueue\script( 'styleguide' );
 	}
-
 }
 
 /**
@@ -91,12 +94,19 @@ function scripts() {
  * @return void
  */
 function styles() {
-
-	enqueue_style( 'style' );
-
+	enqueue\style( 'style' );
 	if ( is_page_template( 'templates/page-styleguide.php' ) ) {
-		enqueue_style( 'styleguide-style' );
+		enqueue\style( 'styleguide-style' );
 	}
+}
+
+/**
+ * Enqueue styles for front-end.
+ *
+ * @return void
+ */
+function styles_shared() {
+	enqueue\style( 'shared' );
 }
 
 /**
@@ -107,7 +117,6 @@ function styles() {
  * @return void
  */
 function js_detection() {
-
 	echo "<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>\n";
 }
 

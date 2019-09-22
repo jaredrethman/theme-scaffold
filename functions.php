@@ -20,7 +20,7 @@ const PATH_INC = PATH . 'includes/';
 /**
  * Requires
  */
-require_once PATH_INC . 'assets.php';
+require_once PATH_INC . 'enqueue.php';
 require_once PATH_INC . 'core.php';
 require_once PATH_INC . 'overrides.php';
 require_once PATH_INC . 'template-tags.php';
