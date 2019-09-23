@@ -13,6 +13,10 @@
 		"NODE_ENV": true,
 		"require": true,
 		"process": true,
-		"__dirname": true
+		"__dirname": true,
+		"global": true,
+		"test": true,
+		"expect": true,
+		"describe": true
 	}
 }
