@@ -1,5 +1,5 @@
 {
-  "name": "tenup-scaffold",
+  "name": "theme-scaffold",
   "version": "1.0.0",
   "description": "Project Description",
   "homepage": "https://project-domain.tld",
@@ -100,6 +100,7 @@
     "postcss-preset-env": "^6.7.0",
     "purgecss-webpack-plugin": "^1.6.0",
     "react-hot-loader": "^4.12.13",
+    "react-test-renderer": "^16.9.0",
     "style-loader": "^1.0.0",
     "stylelint": "^9.10.1",
     "stylelint-config-wordpress": "^13.1.0",
@@ -116,19 +117,20 @@
   },
   "testing": {
     "urls": {
-      "homepage": "http://tenup-scaffold.test",
-      "article": "http://tenup-scaffold.test/hello-world",
-      "search-results": "http://tenup-scaffold.test/?s=hello"
+      "homepage": "http://theme-scaffold.test",
+      "article": "http://theme-scaffold.test/hello-world",
+      "search-results": "http://theme-scaffold.test/?s=hello",
+      "local": "http://theme-scaffold.test/"
     },
     "accessibility": {
       "compliance": "WCAG2AA"
     }
   },
-  "engineStrict": true,
   "engines": {
-    "node": ">=8.11"
+    "node": ">=8.3"
   },
   "dependencies": {
+    "core-js": "^3.2.1",
     "lodash": "^4.17.15",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
