@@ -47,6 +47,9 @@ module.exports = new Promise( ( resolve, reject ) => {
 					new PurgeCssPlugin( {
 						paths: glob.sync( [
 							path.join( __dirname, '../*.php' ),
+							path.join( __dirname, '../includes/**/*.php' ),
+							path.join( __dirname, '../partials/**/*.php' ),
+							path.join( __dirname, '../templates/**/*.php' ),
 							path.join( __dirname, '../assets/**/*.js' )
 						] ),
 						whitelist : wpTheme( 'purgeCss' ).whitelist,

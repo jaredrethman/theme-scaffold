@@ -43,57 +43,56 @@ const utils = {
 
 	/**
 	 *
-	 * @returns {{devServer: {}}}
 	 */
 	devConfig() {
+		return new Promise( ( resolve, reject ) => {
 
-		log( chalk.underline.cyanBright( `\nWebPack-Dev-Server Detected: ${utils.getUrl()}webpack-dev-server` ) );
+			log( chalk.underline.cyanBright( `WebPack-Dev-Server Detected: ${utils.getUrl()}webpack-dev-server` ) );
 
-		/** Add .wds file when webpack-dev-server starts */
-		open( './.wds', 'r', ( err ) => {
-			if ( err ) {
-				log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), 'Writing .wds file. (async)' );
-				writeFile( './.wds', '', ( err ) => {
-					if ( err ) {
-						log( err );
+			/**
+			 * When user kills process (CTRL c) remove .wds file
+			 */
+			for ( const sig of ['SIGINT', 'SIGTERM', 'exit'] ) {
+				process.on( sig, () => {
+					if ( process ) {
+						if ( existsSync( './.wds' ) ) {
+							unlink( './.wds', () => {
+								// Quietly delete .wds file
+							} );
+						}
+					} else {
+						log( 'No such process found!' );
 					}
-					log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), 'Resolved. ".wds" file created. \n' );
 				} );
 			}
-		} );
 
-		/**
-		 * When user kills process (CTRL c) remove .wds file
-		 */
-		for ( const sig of ['SIGINT', 'SIGTERM', 'exit'] ) {
-			process.on( sig, () => {
-				if ( process ) {
-					if ( existsSync( './.wds' ) ) {
-						unlink( './.wds', () => {
-							// Quietly delete .wds file
+			/** Add .wds file when webpack-dev-server starts */
+			open( './.wds', 'r', ( err ) => {
+				if ( err ) {
+					log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), 'Writing .wds file. (async)' );
+					writeFile( './.wds', '', ( err ) => {
+						if ( err ) {
+							reject( err );
+						}
+						log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), 'Resolved. ".wds" file created. \n' );
+						resolve( {
+							devServer: {
+								headers: {
+									'Access-Control-Allow-Origin': '*',
+								},
+								hot: true,
+								contentBase: './dist',
+								disableHostCheck: true,
+								port: wpTheme.options.port,
+							},
+							plugins: [
+								new webpack.HotModuleReplacementPlugin()
+							],
 						} );
-					}
-				} else {
-					log( 'No such process found!' );
+					} );
 				}
 			} );
-		}
-
-		return {
-			devServer: {
-				headers: {
-					'Access-Control-Allow-Origin': '*',
-				},
-				hot: true,
-				contentBase: './dist',
-				disableHostCheck: true,
-				port: wpTheme.options.port,
-			},
-			plugins: [
-				new webpack.HotModuleReplacementPlugin()
-			],
-		};
-
+		} );
 	},
 
 	/**
@@ -112,12 +111,16 @@ const utils = {
 			// eslint-disable-next-line camelcase
 			return `${utils.wpTheme( 'devUrl' )}wp-content/themes/${npm_package_name}/${path}`;
 		}
-		const {port} = utils.wpTheme( 'options' );
-		return utils.isSsl() ? `https://localhost:${port}/${path}` : `http://localhost:${port}/${path}`;
+		if ( 'development' === NODE_ENV ) {
+			const {port} = utils.wpTheme( 'options' );
+			return utils.isSsl() ? `https://localhost:${port}/${path}` : `http://localhost:${port}/${path}`;
+		}
+		// eslint-disable-next-line camelcase
+		return `/wp-content/themes/${npm_package_name}/${path}`;
 	},
 
 	/**
-	 * Object housing Webpack property proxies
+	 * Object housing Webpack config proxies
 	 */
 	proxy: {
 
@@ -125,7 +128,7 @@ const utils = {
 		 * Parse Entries from ../wp.theme.config.js.
 		 *
 		 */
-		entry() {
+		entries() {
 			return new Promise( ( resolve, reject ) => {
 
 				const entriesJson = wpTheme.entries;
@@ -159,13 +162,15 @@ const utils = {
 						entry.push( ...entryJson.css );
 					}
 					if( ~entryJsonKeys.indexOf( 'react' ) && 'development' === NODE_ENV ){
-						typesString.push( chalk.cyanBright( 'React' ) );
+						typesString.push( chalk.cyanBright( 'React-Hot-Loader' ) );
 						entry.unshift( 'react-hot-loader/patch' );
 					}
 
-					log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), chalk.bold( `[${entryJson.name}] added to WebPack entries.`,  typesString.join() ) );
+					log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), chalk.bold( `[${entryJson.name}]`,  typesString.join( ', ' ) ) );
 					entries[entryJson.name] = entry;
 				}
+
+				log( '' );
 
 				resolve( entries );
 			} );
@@ -198,7 +203,6 @@ const utils = {
 				return {
 					...defaultOutput,
 					...{
-						publicPath: '/',
 						filename: '[name].min.js'
 					},
 				};

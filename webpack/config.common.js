@@ -21,12 +21,12 @@ const {NODE_ENV} = process.env;
  * @type {Promise<unknown>}
  */
 module.exports = new Promise( ( resolve, reject ) => {
+	proxy.entries().then( ( entry ) => {
 
-	const stats = proxy.stats();
-	const output = proxy.output();
-	const externals = proxy.externals();
+		const stats = proxy.stats();
+		const output = proxy.output();
+		const externals = proxy.externals();
 
-	proxy.entry().then( ( entry ) => {
 		resolve( {
 			entry,
 			stats,

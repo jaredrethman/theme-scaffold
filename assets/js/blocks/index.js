@@ -1,15 +1,18 @@
 /**
- * Gutenberg block-specific JavaScript:
- * used on front-end and/or in editor
+ * Example Block - Edit
+ *
+ * @package TenUpScaffold
  */
-
-/* eslint-disable no-unused-vars */
-
-/**
- * Allow HMR, if running.
- */
+// Accept HMR if running
 if ( module.hot ) {
 	module.hot.accept();
 }
+/* eslint-disable no-unused-vars */
 
+/**
+ * Dependencies
+ */
+// Core JS
+import map from 'core-js/features/array/map';
+// Blocks
 import ExampleBlock from './example-block';

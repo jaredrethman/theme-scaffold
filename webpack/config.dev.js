@@ -21,47 +21,47 @@ const { devConfig } = require( './utils' );
  */
 module.exports = new Promise( ( resolve, reject ) => {
 	common.then( ( data ) => {
-		const {
-			devServer,
-			plugins
-		} = devConfig();
-		resolve(
-			merge( data, {
-				mode: 'development',
-				devServer,
-				devtool: 'source-map',
-				module: {
-					rules: [
-						/** CSS */
-						{
-							test: /\.css$/,
-							use: [
-								{ loader: 'style-loader' },
-								{
-									loader: 'css-loader',
-									options: {
-										sourceMap: true,
+
+		devConfig().then( ( { devServer, plugins } ) => {
+			resolve(
+				merge( data, {
+					mode: 'development',
+					devServer,
+					devtool: 'source-map',
+					module: {
+						rules: [
+							/** CSS */
+							{
+								test: /\.css$/,
+								use: [
+									{ loader: 'style-loader' },
+									{
+										loader: 'css-loader',
+										options: {
+											sourceMap: true,
+										},
 									},
-								},
-							],
-						},
-						/** JS/JSX */
-						{
-							test: /\.(js|jsx)$/,
-							// exclude: /node_modules/,
-							include: [
-								path.resolve( __dirname, '../assets/js' ),
-								path.resolve( __dirname, '../node_modules/core-js/modules' ),
-							],
-							use: [
-								'babel-loader',
-								'eslint-loader',
-							]
-						}
-					],
-				},
-				plugins,
-			} ),
-		);
+								],
+							},
+							/** JS/JSX */
+							{
+								test: /\.(js|jsx)$/,
+								// exclude: /node_modules/,
+								include: [
+									path.resolve( __dirname, '../assets/js' ),
+									path.resolve( __dirname, '../node_modules/core-js/modules' ),
+								],
+								use: [
+									'babel-loader',
+									'eslint-loader',
+								]
+							}
+						],
+					},
+					plugins,
+				} ),
+			);
+		} );
+
 	} ).catch( e => reject( e ) );
 } );

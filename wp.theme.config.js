@@ -61,7 +61,7 @@ module.exports = {
 	 * @link https://www.purgecss.com
 	 */
 	'purgeCss': {
-		// whitelist: [ 'url-loader-test-png' ],
-		whitelistPatterns: [ /^url-loader-test+/g ],
+		whitelist: [ 'url-loader-test-png' ],
+		whitelistPatterns: [ /^uikit__+/g ],
 	}
 };

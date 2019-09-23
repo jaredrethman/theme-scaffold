@@ -7,8 +7,6 @@
 /**
  * Dependencies
  */
-// Core JS
-import map from 'core-js/features/array/map'; // eslint-disable-line no-unused-vars
 // React & PropTypes
 import React from 'react';
 // React Hot Loader, required for HMR.
@@ -65,9 +63,4 @@ function ExampleBlockEdit( { setAttributes, attributes: { title, contentType } }
 /**
  * Wrap component in React Hot Loader, if HMR is running.
  */
-if ( 'development' === NODE_ENV ) {
-	// eslint-disable-next-line no-func-assign
-	ExampleBlockEdit = hot( ExampleBlockEdit );
-}
-
-export default ExampleBlockEdit;
+export default 'development' === NODE_ENV ? hot( ExampleBlockEdit ) : ExampleBlockEdit;
