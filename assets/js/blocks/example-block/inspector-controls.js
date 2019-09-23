@@ -1,12 +1,16 @@
 /**
- * Content List Block Component.
+ * Example Block - Inspector Controls
  *
- * @package Clarion
+ * @package TenUpScaffold
  */
 
+/**
+ * Dependencies
+ */
+// React & PropTypes
 import React from 'react';
 import PropTypes from 'prop-types';
-
+// WordPress
 const {
 	components: {
 		PanelBody,
@@ -15,7 +19,7 @@ const {
 	i18n: {
 		__
 	},
-	editor: {
+	blockEditor: {
 		InspectorControls,
 	},
 } = wp;
@@ -28,7 +32,7 @@ const {
  * @returns {*}
  * @constructor
  */
-function ExampleInspectorControls( { contentType, setAttributes } ) {
+function ExampleBlockInspectorControls( { contentType, types, setAttributes } ) {
 
 	return (
 		<InspectorControls>
@@ -37,29 +41,20 @@ function ExampleInspectorControls( { contentType, setAttributes } ) {
 					label={__( 'Content Type:' )}
 					value={contentType}
 					onChange={ contentType => setAttributes( { contentType } )}
-					options={[
-						{
-							value: 'post',
-							label: __( 'Post' ),
-						},
-						{
-							value: 'page',
-							label: __( 'Page' ),
-						}
-					]}
+					options={ types }
 				/>
 			</PanelBody>
 		</InspectorControls>
 	);
 }
 
-ExampleInspectorControls.propTypes = {
+ExampleBlockInspectorControls.propTypes = {
 	contentType: PropTypes.string,
 	setAttributes: PropTypes.func.isRequired,
 };
 
-ExampleInspectorControls.defaultProps = {
+ExampleBlockInspectorControls.defaultProps = {
 	contentType: 'post',
 };
 
-export default ExampleInspectorControls;
+export default ExampleBlockInspectorControls;
