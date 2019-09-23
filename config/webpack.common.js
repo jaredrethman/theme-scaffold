@@ -1,5 +1,3 @@
-/* global process, module, require */
-
 const path = require( 'path' );
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
@@ -136,7 +134,7 @@ module.exports = {
 
 		// Lint CSS.
 		new StyleLintPlugin( {
-			context: path.resolve( process.cwd(), settings.paths.src.css ),
+			context: path.resolve( __dirname, './assets/css/' ),
 			files: '**/*.css',
 		} ),
 

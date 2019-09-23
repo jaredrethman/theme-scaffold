@@ -1,5 +1,5 @@
 /**
- * WebPack Dev
+ * WebPack Watch
  *
  * @package TenUpScaffold
  */

@@ -20,7 +20,11 @@ const { devConfig } = require( './utils' );
  */
 module.exports = new Promise( ( resolve, reject ) => {
 	common.then( ( data ) => {
-		const { devServer, plugins, publicPath } = devConfig();
+		const {
+			devServer,
+			plugins,
+			publicPath
+		} = devConfig();
 		resolve(
 			merge( data, {
 				mode: 'development',

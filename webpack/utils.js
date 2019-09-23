@@ -1,5 +1,5 @@
 /**
- * WebPack Dev
+ * WebPack Utils
  *
  * @package TenUpScaffold
  */
@@ -8,6 +8,7 @@
  * Modules
  */
 // Node Modules.
+const path = require( 'path' );
 const webpack = require( 'webpack' );
 const {
 	open,
@@ -19,6 +20,7 @@ const chalk = require( 'chalk' );
 const {log} = console;
 // Internal.
 const wpTheme = require( '../wp.theme.config' );
+// Node Processes
 const {
 	env: {
 		NODE_ENV,
@@ -32,20 +34,20 @@ const utils = {
 	/**
 	 * Helper to grab config from wp.theme.config.js
 	 */
-	wpTheme( key = null ){
-		if( null === key ){
+	wpTheme( key = null ) {
+		if ( null === key ) {
 			return wpTheme;
 		}
-		return wpTheme[ key ];
+		return wpTheme[key];
 	},
 
 	/**
 	 *
 	 * @returns {{devServer: {}}}
 	 */
-	devConfig () {
+	devConfig() {
 
-		log( chalk.underline.cyan( `\nWebPack-Dev-Server Detected: ${ utils.getUrl() }webpack-dev-server` ) );
+		log( chalk.underline.cyan( `\nWebPack-Dev-Server Detected: ${utils.getUrl()}webpack-dev-server` ) );
 
 		/** Add .wds file when webpack-dev-server starts */
 		open( './.wds', 'r', ( err ) => {
@@ -98,7 +100,7 @@ const utils = {
 	/**
 	 * Is current process SSL
 	 */
-	isSsl(){
+	isSsl() {
 		// eslint-disable-next-line camelcase
 		return !!~npm_lifecycle_event.indexOf( ':s' );
 	},
@@ -106,13 +108,13 @@ const utils = {
 	/**
 	 * Get Url
 	 */
-	getUrl( path = '' ){
-		if( 'watch' === NODE_ENV ){
+	getUrl( path = '' ) {
+		if ( 'watch' === NODE_ENV ) {
 			// eslint-disable-next-line camelcase
-			return `${ utils.wpTheme( 'devUrl' ) }wp-content/themes/${ npm_package_name }/dist/`;
+			return `${utils.wpTheme( 'devUrl' )}wp-content/themes/${npm_package_name}/dist/`;
 		}
-		const { port } = utils.wpTheme( 'options' );
-		return utils.isSsl() ? `https://localhost:${ port }/${ path }` : `http://localhost:${ port }/${ path }`;
+		const {port} = utils.wpTheme( 'options' );
+		return utils.isSsl() ? `https://localhost:${port}/${path}` : `http://localhost:${port}/${path}`;
 	},
 
 	/**
@@ -125,47 +127,42 @@ const utils = {
 		 *
 		 * @returns {Array}
 		 */
-		entries(){
+		entry() {
 			const entriesJson = wpTheme.entries;
 			log( chalk.underline.cyan( 'WP Theme Runtime-Config - Parsing entries:' ) );
-			if( 1 > entriesJson.length ){
+			if ( 1 > entriesJson.length ) {
 				log( 'No Entries Found.' );
 				return [];
 			}
 			const entries = {};
-			const hmrScripts = 'development' === NODE_ENV ? [
-				'webpack-dev-server/client?http://0.0.0.0:4000',
-				'webpack/hot/only-dev-server',
-			] : [];
-			for( let i = 0, m = entriesJson.length; i < m; i++ ){
+			for ( let i = 0, m = entriesJson.length; i < m; i++ ) {
 				const entry = [];
-				const entryJson = { ...{
-					react: false,
-					hmr: true,
-				}, ...entriesJson[i] };
+				const entryJson = entriesJson[i];
 				const entryJsonKeys = Object.keys( entryJson );
-				if( !~entryJsonKeys.indexOf( 'name' ) ) {
+				let typesString = '';
+				if ( !~entryJsonKeys.indexOf( 'name' ) ) {
 					log( chalk.red.bold( '!' ), chalk.grey.bold( '｢wptheme｣' ), chalk.red( `Name is required. Name missing in wp.theme.config.js at position: ${i}` ) );
 					continue;
 				}
-				if( ~Object.keys( entries ).indexOf( entryJson.name ) ) {
+				if ( ~Object.keys( entries ).indexOf( entryJson.name ) ) {
 					log( chalk.red( '!' ), chalk.grey.bold( '｢wptheme｣' ), chalk.red( `Name ${entryJson.name} already exists. Unique keys are required.` ) );
 					continue;
 				}
-				if( ~entryJsonKeys.indexOf( 'js' ) ) {
+				if ( ~entryJsonKeys.indexOf( 'js' ) ) {
+					typesString += 'js|';
 					entry.push( ...entryJson.js );
 				}
-				if( ~entryJsonKeys.indexOf( 'css' ) ) {
+				if ( ~entryJsonKeys.indexOf( 'css' ) ) {
+					typesString += 'css|';
 					entry.push( ...entryJson.css );
 				}
-				if( ~entryJsonKeys.indexOf( 'hmr' ) && entryJson.hmr ){
-					if( ~entryJsonKeys.indexOf( 'react' ) && entryJson.react && 'development' === NODE_ENV ){
-						entry.unshift( 'react-hot-loader/patch' );
-					}
-					entry.unshift( ...hmrScripts );
+				if( ~entryJsonKeys.indexOf( 'react' ) && 'development' === NODE_ENV ){
+					typesString += 'react|';
+					entry.unshift( 'react-hot-loader/patch' );
 				}
-				log( chalk.cyan( '+' ), chalk.grey.bold( '｢wptheme｣' ), chalk.bold( `[${entryJson.name}] added to WebPack entries.` ) );
-				entries[ entryJson.name ] = entry;
+
+				log( chalk.cyan( '+' ), chalk.grey.bold( '｢wptheme｣' ), chalk.bold( `[${entryJson.name}][${ typesString }] added to WebPack entries.` ) );
+				entries[entryJson.name] = entry;
 			}
 
 			return entries;
@@ -176,13 +173,30 @@ const utils = {
 		 *
 		 * @returns {{}}
 		 */
-		stats(){
+		stats() {
 			// eslint-disable-next-line camelcase
-			if( 'verbose' === npm_config_loglevel ){
+			if ( 'verbose' === npm_config_loglevel ) {
 				return {};
 			}
 			return utils.wpTheme( 'stats' );
-		}
+		},
+
+		/* eslint-disable */
+		output() {
+
+			return {
+				filename: '[name].js',
+				path: path.resolve(__dirname, '../dist'), // eslint-disable-line no-undef
+			}
+		},
+
+		externals() {
+			return {
+				react: 'React',
+				'react-dom': 'ReactDOM',
+				lodash: 'lodash',
+			};
+		},
 	}
 };
 

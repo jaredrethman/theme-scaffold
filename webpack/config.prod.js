@@ -11,7 +11,7 @@
 const path = require( 'path' );
 const glob = require( 'glob-all' );
 const merge = require( 'webpack-merge' );
-const UglifyJsPlugin = require( 'uglifyjs-webpack-plugin' );
+const TerserPlugin = require( 'terser-webpack-plugin' );
 const PurgeCssPlugin = require( 'purgecss-webpack-plugin' );
 const OptimizeCSSAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
 // Internal.
@@ -34,9 +34,10 @@ module.exports = new Promise( ( resolve, reject ) => {
 				},
 				optimization: {
 					minimizer: [
-						new UglifyJsPlugin( {
+						new TerserPlugin( {
 							cache: true,
 							parallel: true,
+							sourceMap: false,
 						} ),
 						new OptimizeCSSAssetsPlugin( {
 							assetNameRegExp: /\.min\.css$/g,

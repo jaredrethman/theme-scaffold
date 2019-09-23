@@ -10,6 +10,7 @@
 // NPM Modules.
 const path = require( 'path' );
 const webpack = require( 'webpack' );
+const StyleLintPlugin = require( 'stylelint-webpack-plugin' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 // Internal.
 const { proxy } = require( './utils' );
@@ -21,21 +22,24 @@ const {NODE_ENV} = process.env;
  * @type {Promise<unknown>}
  */
 module.exports = new Promise( ( resolve, reject ) => {
-	const entry = proxy.entries( NODE_ENV );
+
+	const entry = proxy.entry();
+	const stats = proxy.stats();
+	const output = proxy.output();
+	const externals = proxy.externals();
+
 	if( 1 > Object.keys( entry ).length ){
 		reject( 'Entries cannot be empty. Check property "entries" in your wp.theme.config.js file configuration.' );
 	}
 	resolve( {
 		entry,
-		output: {
-			filename: '[name].js',
-			path: path.resolve( __dirname, '../dist' ), // eslint-disable-line no-undef
-		},
+		stats,
+		output,
+		externals,
 		resolve: {
-			extensions: ['.js', '.css'],
+			extensions: [ '.js', '.css' ],
 			symlinks: false,
 		},
-		stats: proxy.stats(),
 		module: {
 			rules: [
 				/** JS/JSX */
@@ -71,6 +75,10 @@ module.exports = new Promise( ( resolve, reject ) => {
 			new CleanWebpackPlugin(),
 			new webpack.DefinePlugin( {
 				NODE_ENV: JSON.stringify( NODE_ENV ),
+			} ),
+			new StyleLintPlugin( {
+				context: path.resolve( __dirname, './assets/css/' ),
+				files: '**/*.css',
 			} ),
 		],
 	} );

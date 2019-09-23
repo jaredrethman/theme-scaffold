@@ -84,7 +84,7 @@ function theme_setup() {
 function scripts() {
 	enqueue\script( 'frontend' );
 	if ( is_page_template( 'templates/page-styleguide.php' ) ) {
-		enqueue\script( 'styleguide' );
+		enqueue\script( 'style-guide' );
 	}
 }
 
@@ -94,9 +94,9 @@ function scripts() {
  * @return void
  */
 function styles() {
-	enqueue\style( 'style' );
+	enqueue\style( 'frontend' );
 	if ( is_page_template( 'templates/page-styleguide.php' ) ) {
-		enqueue\style( 'styleguide-style' );
+		enqueue\style( 'style-guide' );
 	}
 }
 
@@ -106,6 +106,7 @@ function styles() {
  * @return void
  */
 function styles_shared() {
+	enqueue\script( 'shared' );
 	enqueue\style( 'shared' );
 }
 
