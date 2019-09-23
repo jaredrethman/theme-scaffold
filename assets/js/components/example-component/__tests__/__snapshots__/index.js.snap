@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ExampleComponent /> snapshot passed 1`] = `
+<div
+  className="tenup-blocks-content-list__items"
+>
+  <h3>
+    Example Component:
+  </h3>
+  <ul>
+    <li>
+      <h4>
+        Title One
+      </h4>
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<p>Test Excerpt</p>",
+          }
+        }
+      />
+    </li>
+    <li>
+      <h4>
+        Title Two
+      </h4>
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "",
+          }
+        }
+      />
+    </li>
+  </ul>
+</div>
+`;
