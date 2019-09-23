@@ -3,12 +3,15 @@ module.exports = {
 		[
 			'@babel/preset-env',
 			{
-				corejs: '3.0.0',
+				corejs: 3,
 				useBuiltIns: 'usage',
 				shippedProposals: true,
 			}
 		],
 		'@babel/preset-react',
 		'@wordpress/default'
+	],
+	plugins: [
+		'react-hot-loader/babel',
 	]
 };

@@ -33,14 +33,14 @@ const {
  */
 function ExampleComponent( { content } ) {
 
-	const contentReturn = null !== content ? ( 1 > content.length ? <Spinner /> : content.map( ( v ) => {
+	const contentReturn = null !== content ? ( 1 > content.length ? '' : content.map( ( v ) => {
 		return (
 			<li key={v.id}>
 				<h4>{v.title.rendered}</h4>
 				<span dangerouslySetInnerHTML={ { __html: v.excerpt.rendered } } />
 			</li>
 		);
-	} ) ) : '';
+	} ) ) : <Spinner />;
 
 	return (
 		<div className='tenup-blocks-content-list__items'>
@@ -77,7 +77,7 @@ ExampleComponent.defaultProps = {
 export default withSelect( (  __select, { contentType, content }  ) => {
 	if( null === content ){
 		return {
-			content: []
+			content
 		};
 	}
 	return {

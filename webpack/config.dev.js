@@ -8,6 +8,7 @@
  * Modules
  */
 // Node Modules.
+const path = require( 'path' );
 const merge = require( 'webpack-merge' );
 // Internal.
 const common = require( './config.common.js' );
@@ -47,18 +48,15 @@ module.exports = new Promise( ( resolve, reject ) => {
 						/** JS/JSX */
 						{
 							test: /\.(js|jsx)$/,
-							exclude: /node_modules/,
-							use: {
-								loader: 'babel-loader',
-								options: {
-									plugins: ['react-hot-loader/babel'],
-								}
-							}
-						},
-						{
-							test: /\.js$/,
-							exclude: /node_modules/,
-							use: ['babel-loader', 'eslint-loader'],
+							// exclude: /node_modules/,
+							include: [
+								path.resolve( __dirname, '../assets/js' ),
+								path.resolve( __dirname, '../node_modules/core-js/modules' ),
+							],
+							use: [
+								'babel-loader',
+								'eslint-loader',
+							]
 						}
 					],
 				},

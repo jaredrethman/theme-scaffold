@@ -7,10 +7,13 @@
 /**
  * Dependencies
  */
+// Core JS
+import map from 'core-js/features/array/map'; // eslint-disable-line no-unused-vars
 // React & PropTypes
 import React from 'react';
 // React Hot Loader, required for HMR.
 import {hot} from 'react-hot-loader/root';
+// eslint-disable-next-line no-unused-vars
 // WordPress
 const {
 	blockEditor: {

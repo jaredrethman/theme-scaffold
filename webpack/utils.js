@@ -47,17 +47,17 @@ const utils = {
 	 */
 	devConfig() {
 
-		log( chalk.underline.cyan( `\nWebPack-Dev-Server Detected: ${utils.getUrl()}webpack-dev-server` ) );
+		log( chalk.underline.cyanBright( `\nWebPack-Dev-Server Detected: ${utils.getUrl()}webpack-dev-server` ) );
 
 		/** Add .wds file when webpack-dev-server starts */
 		open( './.wds', 'r', ( err ) => {
 			if ( err ) {
-				log( chalk.cyan( '+' ), chalk.grey.bold( '｢wptheme｣' ), 'Writing .wds file. (async)' );
+				log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), 'Writing .wds file. (async)' );
 				writeFile( './.wds', '', ( err ) => {
 					if ( err ) {
 						log( err );
 					}
-					log( chalk.cyan( '+' ), chalk.grey.bold( '｢wptheme｣' ), 'Resolved. ".wds" file created. \n' );
+					log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), 'Resolved. ".wds" file created. \n' );
 				} );
 			}
 		} );
@@ -124,47 +124,51 @@ const utils = {
 		/**
 		 * Parse Entries from ../wp.theme.config.js.
 		 *
-		 * @returns {Array}
 		 */
 		entry() {
-			const entriesJson = wpTheme.entries;
-			log( chalk.underline.cyan( 'WP Theme Runtime-Config - Parsing entries:' ) );
-			if ( 1 > entriesJson.length ) {
-				log( 'No Entries Found.' );
-				return [];
-			}
-			const entries = {};
-			for ( let i = 0, m = entriesJson.length; i < m; i++ ) {
-				const entry = [];
-				const entryJson = entriesJson[i];
-				const entryJsonKeys = Object.keys( entryJson );
-				let typesString = '';
-				if ( !~entryJsonKeys.indexOf( 'name' ) ) {
-					log( chalk.red.bold( '!' ), chalk.grey.bold( '｢wptheme｣' ), chalk.red( `Name is required. Name missing in wp.theme.config.js at position: ${i}` ) );
-					continue;
-				}
-				if ( ~Object.keys( entries ).indexOf( entryJson.name ) ) {
-					log( chalk.red( '!' ), chalk.grey.bold( '｢wptheme｣' ), chalk.red( `Name ${entryJson.name} already exists. Unique keys are required.` ) );
-					continue;
-				}
-				if ( ~entryJsonKeys.indexOf( 'js' ) ) {
-					typesString += 'js|';
-					entry.push( ...entryJson.js );
-				}
-				if ( ~entryJsonKeys.indexOf( 'css' ) ) {
-					typesString += 'css|';
-					entry.push( ...entryJson.css );
-				}
-				if( ~entryJsonKeys.indexOf( 'react' ) && 'development' === NODE_ENV ){
-					typesString += 'react|';
-					entry.unshift( 'react-hot-loader/patch' );
+			return new Promise( ( resolve, reject ) => {
+
+				const entriesJson = wpTheme.entries;
+
+				log( chalk.underline.cyanBright( 'WP Theme Runtime-Config - Parsing entries:' ) );
+
+				if ( 1 > entriesJson.length ) {
+					reject( 'Entries cannot be empty. Check property "entries" in your wp.theme.config.js file configuration.' );
 				}
 
-				log( chalk.cyan( '+' ), chalk.grey.bold( '｢wptheme｣' ), chalk.bold( `[${entryJson.name}][${ typesString }] added to WebPack entries.` ) );
-				entries[entryJson.name] = entry;
-			}
+				const entries = {};
+				for ( let i = 0, m = entriesJson.length; i < m; i++ ) {
+					const entry = [];
+					const entryJson = entriesJson[i];
+					const entryJsonKeys = Object.keys( entryJson );
+					const typesString = [];
+					if ( !~entryJsonKeys.indexOf( 'name' ) ) {
+						log( chalk.red.bold( '!' ), chalk.grey.bold( '｢wptheme｣' ), chalk.red( `Name is required. Name missing in wp.theme.config.js at position: ${i}` ) );
+						continue;
+					}
+					if ( ~Object.keys( entries ).indexOf( entryJson.name ) ) {
+						log( chalk.red( '!' ), chalk.grey.bold( '｢wptheme｣' ), chalk.red( `Name ${entryJson.name} already exists. Unique keys are required.` ) );
+						continue;
+					}
+					if ( ~entryJsonKeys.indexOf( 'js' ) ) {
+						typesString.push( chalk.yellow( 'JS' ) );
+						entry.push( ...entryJson.js );
+					}
+					if ( ~entryJsonKeys.indexOf( 'css' ) ) {
+						typesString.push( chalk.greenBright( 'CSS' ) );
+						entry.push( ...entryJson.css );
+					}
+					if( ~entryJsonKeys.indexOf( 'react' ) && 'development' === NODE_ENV ){
+						typesString.push( chalk.cyanBright( 'React' ) );
+						entry.unshift( 'react-hot-loader/patch' );
+					}
 
-			return entries;
+					log( chalk.cyanBright( '+' ), chalk.grey.bold( '｢wptheme｣' ), chalk.bold( `[${entryJson.name}] added to WebPack entries.`,  typesString.join() ) );
+					entries[entryJson.name] = entry;
+				}
+
+				resolve( entries );
+			} );
 		},
 
 		/**
@@ -194,6 +198,7 @@ const utils = {
 				return {
 					...defaultOutput,
 					...{
+						publicPath: '/',
 						filename: '[name].min.js'
 					},
 				};
@@ -210,6 +215,7 @@ const utils = {
 				react: 'React',
 				'react-dom': 'ReactDOM',
 				lodash: 'lodash',
+				'core-js': 'core-js',
 			};
 		},
 	}

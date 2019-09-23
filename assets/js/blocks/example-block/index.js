@@ -13,8 +13,8 @@ const {
 		__
 	},
 	blocks: {
-		registerBlockType,
 		getBlockType,
+		registerBlockType,
 		unregisterBlockType
 	},
 } = wp;
