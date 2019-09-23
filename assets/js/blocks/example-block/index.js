@@ -35,7 +35,7 @@ registerBlockType(
 	BLOCK_NAME, {
 		title: __( 'Example Block' ),
 		description: __( '10up Theme Scaffold example block.' ),
-		category: 'tenup',
+		category: 'test' === NODE_ENV ? 'common' : 'tenup',
 		icon: 'screenoptions',
 		attributes: {
 			title: {

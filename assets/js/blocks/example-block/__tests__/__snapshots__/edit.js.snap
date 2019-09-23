@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ExampleBlockEdit /> snapshot passed 1`] = `
+<div
+  className="tenup-blocks-content-list"
+>
+  <div
+    className="editor-rich-text block-editor-rich-text"
+  >
+    <div
+      onFocus={[Function]}
+    >
+      <div
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchStart={[Function]}
+      >
+        <div
+          className="components-autocomplete"
+          onClick={[Function]}
+        >
+          <h3
+            aria-activedescendant={null}
+            aria-label=""
+            aria-multiline={true}
+            aria-owns={null}
+            className="rich-text editor-rich-text__editable block-editor-rich-text__editable"
+            contentEditable={true}
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Test Example Block Edit",
+              }
+            }
+            onBlur={[Function]}
+            onCompositionEnd={[Function]}
+            onFocus={[Function]}
+            onInput={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseUp={[Function]}
+            onPaste={[Function]}
+            onTouchEnd={[Function]}
+            onTouchStart={[Function]}
+            role="textbox"
+            style={
+              Object {
+                "whiteSpace": "pre-wrap",
+              }
+            }
+            suppressContentEditableWarning={true}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <pre>
+    assets/js/blocks/example-block/index.js
+  </pre>
+  <div
+    className="tenup-blocks-content-list__items"
+  >
+    <h3>
+      Example Component:
+    </h3>
+    <ul>
+      <li>
+        <h4>
+          Title One
+        </h4>
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Test Excerpt</p>",
+            }
+          }
+        />
+      </li>
+      <li>
+        <h4>
+          Title Two
+        </h4>
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "",
+            }
+          }
+        />
+      </li>
+    </ul>
+  </div>
+</div>
+`;
