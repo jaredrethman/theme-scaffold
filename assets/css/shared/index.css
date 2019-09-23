@@ -3,3 +3,9 @@
  * https://project-website.tld
  *
  */
+
+:root {
+	--ts-gray: #aeaeae;
+	--ts-gray-light: #f1f1f1;
+	--ts-gray-lighter: #f9f9f9;
+}
