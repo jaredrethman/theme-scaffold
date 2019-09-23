@@ -42,22 +42,26 @@ module.exports = {
 	],
 	'options': {
 		'port': 4000,
-		'browserSync': {
-			host: 'localhost',
-			port: 3000,
-			proxy: 'http://10pl8.test',
-			open: false,
-			files: [
-				'**/*.php',
-				'dist/**/*.js',
-				'dist/**/*.css',
-				'dist/**/*.svg',
-				'dist/**/*.{jpg,jpeg,png,gif}',
-				'dist/**/*.{eot,ttf,woff,woff2,svg}'
-			]
-		}
 	},
-	'purgeCss': [
-		'url-loader-test-png'
-	]
+	'browserSync': {
+		host: 'localhost',
+		port: 3000,
+		proxy: 'http://10pl8.test',
+		open: false,
+		files: [
+			'**/*.php',
+			'dist/**/*.js',
+			'dist/**/*.css',
+			'dist/**/*.svg',
+			'dist/**/*.{jpg,jpeg,png,gif}',
+			'dist/**/*.{eot,ttf,woff,woff2,svg}'
+		]
+	},
+	/**
+	 * @link https://www.purgecss.com
+	 */
+	'purgeCss': {
+		// whitelist: [ 'url-loader-test-png' ],
+		whitelistPatterns: [ /^url-loader-test+/g ],
+	}
 };

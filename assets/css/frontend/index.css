@@ -13,18 +13,6 @@
 /* Base - base styles such as fonts, typography, and wordpress overrides */
 @import url( "base/index.css" );
 
-.url-loader-test-svg {
-	background-image: url("../../svg/10up-logo.svg");
-	height: 200px;
-	width: 200px;
-}
-
-.url-loader-test-png {
-	background-image: url("../../icons/icon-192.png");
-	height: 200px;
-	width: 200px;
-}
-
 /* Layout - styles specific to layout */
 
 /* @import url("layout/index.css"); */
@@ -40,3 +28,15 @@
 /* Gutenberg blocks */
 
 /* @import url("../blocks/index.css"); */
+
+.url-loader-test-svg {
+	background-image: url("../../svg/10up-logo.svg");
+	height: 200px;
+	width: 200px;
+}
+
+.url-loader-test-png {
+	background-image: url("../../icons/icon-192.png");
+	height: 200px;
+	width: 200px;
+}

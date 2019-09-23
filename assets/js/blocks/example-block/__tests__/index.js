@@ -23,7 +23,7 @@ describe( 'tenup/example-block', () => {
 	test( `wp.blocks.getBlockType( '${BLOCK_NAME}' )`, () => {
 		expect( Reg ).not.toBeUndefined();
 	} );
-	test( `wp.blocks.getBlockAttributes( '${BLOCK_NAME}' ).includes( 'post' )`, () => {
+	test( `wp.blocks.getBlockAttributes( '${BLOCK_NAME}' ).contentType is 'post'`, () => {
 		expect( wp.blocks.getBlockAttributes( 'tenup/example-block' ).contentType ).toBe( 'post' );
 	} );
 } );

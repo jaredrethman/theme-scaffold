@@ -36,7 +36,7 @@ function ExampleBlockInspectorControls( { contentType, types, setAttributes } ) 
 
 	return (
 		<InspectorControls>
-			<PanelBody title={__( 'Example Body Title:', 'clarion' )}>
+			<PanelBody title={__( 'Example Body Title:' )}>
 				<SelectControl
 					label={__( 'Content Type:' )}
 					value={contentType}

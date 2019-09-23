@@ -80,7 +80,6 @@ const utils = {
 		}
 
 		return {
-			publicPath: utils.getUrl( 'dist/' ),
 			devServer: {
 				headers: {
 					'Access-Control-Allow-Origin': '*',
@@ -111,7 +110,7 @@ const utils = {
 	getUrl( path = '' ) {
 		if ( 'watch' === NODE_ENV ) {
 			// eslint-disable-next-line camelcase
-			return `${utils.wpTheme( 'devUrl' )}wp-content/themes/${npm_package_name}/dist/`;
+			return `${utils.wpTheme( 'devUrl' )}wp-content/themes/${npm_package_name}/${path}`;
 		}
 		const {port} = utils.wpTheme( 'options' );
 		return utils.isSsl() ? `https://localhost:${port}/${path}` : `http://localhost:${port}/${path}`;
@@ -181,15 +180,31 @@ const utils = {
 			return utils.wpTheme( 'stats' );
 		},
 
-		/* eslint-disable */
+		/**
+		 * Webpack config output proxy.
+		 * @returns {{path: *, filename: string}}
+		 */
 		output() {
-
-			return {
+			const defaultOutput = {
 				filename: '[name].js',
-				path: path.resolve(__dirname, '../dist'), // eslint-disable-line no-undef
+				publicPath: utils.getUrl( 'dist/' ),
+				path: path.resolve( __dirname, '../dist' ),
+			};
+			if( 'production' === NODE_ENV ){
+				return {
+					...defaultOutput,
+					...{
+						filename: '[name].min.js'
+					},
+				};
 			}
+			return defaultOutput;
 		},
 
+		/**
+		 * Webpack config externals proxy
+		 * @returns {{"react-dom": string, lodash: string, react: string}}
+		 */
 		externals() {
 			return {
 				react: 'React',

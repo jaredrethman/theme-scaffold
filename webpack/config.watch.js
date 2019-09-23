@@ -12,7 +12,7 @@ const merge = require( 'webpack-merge' );
 const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 // Internal.
 const common = require( './config.common.js' );
-const { getUrl } = require( './utils' );
+const { wpTheme } = require( './utils' );
 
 /**
  * Merge Config with common, resolve in new Promise.
@@ -21,12 +21,11 @@ const { getUrl } = require( './utils' );
  */
 module.exports = new Promise( ( resolve, reject ) => {
 	common.then( ( data ) => {
+		const browserSync = wpTheme( 'browserSync' );
+		browserSync.proxy = wpTheme( 'devUrl' );
 		resolve(
 			merge( data, {
 				mode: 'development',
-				output: {
-					publicPath: getUrl( 'dist/' )
-				},
 				devtool: 'source-map',
 				module: {
 					rules: [
@@ -46,23 +45,7 @@ module.exports = new Promise( ( resolve, reject ) => {
 					],
 				},
 				plugins: [
-					new BrowserSyncPlugin( {
-						host: 'localhost',
-						port: 3000,
-						proxy: 'http://10pl8.test',
-						open: false,
-						files: [
-							'**/*.php',
-							'dist/**/*.js',
-							'dist/**/*.css',
-							'dist/**/*.svg',
-							'dist/**/*.{jpg,jpeg,png,gif}',
-							'dist/**/*.{eot,ttf,woff,woff2,svg}'
-						]
-					}, {
-						injectCss: true,
-						reload: false,
-					} )
+					new BrowserSyncPlugin( wpTheme( 'browserSync' ) )
 				],
 			} ),
 		);

@@ -11,7 +11,6 @@
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const StyleLintPlugin = require( 'stylelint-webpack-plugin' );
-const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 // Internal.
 const { proxy } = require( './utils' );
 const {NODE_ENV} = process.env;
@@ -72,7 +71,6 @@ module.exports = new Promise( ( resolve, reject ) => {
 			],
 		},
 		plugins: [
-			new CleanWebpackPlugin(),
 			new webpack.DefinePlugin( {
 				NODE_ENV: JSON.stringify( NODE_ENV ),
 			} ),

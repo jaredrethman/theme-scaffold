@@ -22,15 +22,11 @@ module.exports = new Promise( ( resolve, reject ) => {
 	common.then( ( data ) => {
 		const {
 			devServer,
-			plugins,
-			publicPath
+			plugins
 		} = devConfig();
 		resolve(
 			merge( data, {
 				mode: 'development',
-				output: {
-					publicPath,
-				},
 				devServer,
 				devtool: 'source-map',
 				module: {

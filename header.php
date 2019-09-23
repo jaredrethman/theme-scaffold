@@ -17,3 +17,7 @@
 	<body <?php body_class(); ?>>
 		<?php wp_body_open(); ?>
 		<h1><?php bloginfo( 'name' ); ?></h1>
+		<?php /** Below test url-loader, will be inline */ ?>
+		<div class="url-loader-test-svg"></div>
+		<?php /** Below tests url-loader & purgeCss, see wp.theme.config.js */ ?>
+		<div class="url-loader-test-<?php echo true ? 'png' : ''; ?>"></div>

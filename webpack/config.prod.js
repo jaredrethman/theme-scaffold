@@ -13,6 +13,7 @@ const glob = require( 'glob-all' );
 const merge = require( 'webpack-merge' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 const PurgeCssPlugin = require( 'purgecss-webpack-plugin' );
+const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 const OptimizeCSSAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
 // Internal.
 const buildConfig = require( './config.build' );
@@ -29,9 +30,6 @@ module.exports = new Promise( ( resolve, reject ) => {
 			merge( data, {
 				mode: 'production',
 				devtool: '(none)',
-				output: {
-					filename: '[name].min.js',
-				},
 				optimization: {
 					minimizer: [
 						new TerserPlugin( {
@@ -45,12 +43,14 @@ module.exports = new Promise( ( resolve, reject ) => {
 					],
 				},
 				plugins: [
+					new CleanWebpackPlugin(),
 					new PurgeCssPlugin( {
 						paths: glob.sync( [
 							path.join( __dirname, '../*.php' ),
 							path.join( __dirname, '../assets/**/*.js' )
 						] ),
-						whitelist : wpTheme( 'purgeCss' )
+						whitelist : wpTheme( 'purgeCss' ).whitelist,
+						whitelistPatterns : wpTheme( 'purgeCss' ).whitelistPatterns,
 					} )
 				]
 			} ) // eslint-disable-line comma-dangle
