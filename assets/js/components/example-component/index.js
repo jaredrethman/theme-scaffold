@@ -13,7 +13,8 @@ import PropTypes from 'prop-types';
 // WordPress
 const {
 	data: {
-		withSelect
+		select,
+		withSelect,
 	},
 	components: {
 		Spinner
@@ -32,19 +33,19 @@ const {
  */
 function ExampleComponent( { content } ) {
 
-	content = null === content ? <Spinner /> : content.map( ( v ) => {
+	const contentReturn = null !== content ? ( 1 > content.length ? <Spinner /> : content.map( ( v ) => {
 		return (
 			<li key={v.id}>
-				<h3>{v.title.rendered}</h3>
+				<h4>{v.title.rendered}</h4>
 				<span dangerouslySetInnerHTML={ { __html: v.excerpt.rendered } } />
 			</li>
 		);
-	} );
+	} ) ) : '';
 
 	return (
 		<div className='tenup-blocks-content-list__items'>
-			<h4>{ __( 'Example Component:' ) }</h4>
-			<ul>{content}</ul>
+			<h3>{ __( 'Example Component:', 'theme-scaffold' ) }</h3>
+			<ul>{contentReturn}</ul>
 		</div>
 	);
 }
@@ -73,8 +74,14 @@ ExampleComponent.defaultProps = {
 	content: [],
 };
 
-export default withSelect( (  select, { contentType }  ) => {
+export default withSelect( (  __select, { contentType, content }  ) => {
+	if( null === content ){
+		return {
+			content: []
+		};
+	}
 	return {
+		// Ensure we don't use the argument version
 		content: select( 'core' ).getEntityRecords( 'postType', contentType, {
 			// eslint-disable-next-line camelcase
 			per_page: 5,
