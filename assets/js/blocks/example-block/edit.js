@@ -13,15 +13,18 @@ import React from 'react';
 import {hot} from 'react-hot-loader/root';
 // WordPress
 const {
-	editor: {
+	blockEditor: {
 		RichText,
 	},
+	i18n: {
+		__
+	}
 } = wp;
 
 /**
  * Components
  */
-import ExampleInspectorControls from './inspector-controls';
+import ExampleBlockInspectorControls from './inspector-controls';
 import ExampleComponent from '../../components/example-component';
 
 /**
@@ -29,7 +32,7 @@ import ExampleComponent from '../../components/example-component';
  * @returns {*}
  * @constructor
  */
-function Tester( { setAttributes, attributes: { title, contentType } } ) {
+function ExampleBlockEdit( { setAttributes, attributes: { title, contentType } } ) {
 
 	return (
 		<div className='tenup-blocks-content-list'>
@@ -42,7 +45,16 @@ function Tester( { setAttributes, attributes: { title, contentType } } ) {
 			/>
 			<pre>assets/js/blocks/example-block/index.js</pre>
 			<ExampleComponent contentType={ contentType } />
-			<ExampleInspectorControls setAttributes={ setAttributes } contentType={ contentType } />
+			<ExampleBlockInspectorControls setAttributes={ setAttributes } contentType={ contentType } types={[
+				{
+					value: 'post',
+					label: __( 'Post' ),
+				},
+				{
+					value: 'page',
+					label: __( 'Page' ),
+				}
+			]} />
 		</div>
 	);
 }
@@ -52,7 +64,7 @@ function Tester( { setAttributes, attributes: { title, contentType } } ) {
  */
 if ( 'development' === NODE_ENV ) {
 	// eslint-disable-next-line no-func-assign
-	Tester = hot( Tester );
+	ExampleBlockEdit = hot( ExampleBlockEdit );
 }
 
-export default Tester;
+export default ExampleBlockEdit;
