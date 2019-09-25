@@ -7,19 +7,26 @@
 /**
  * Dependencies
  */
-// React & PropTypes
-import React from 'react';
 // React Hot Loader, required for HMR.
 import {hot} from 'react-hot-loader/root';
-// eslint-disable-next-line no-unused-vars
+// React & PropTypes
+import React from 'react';
 // WordPress
 const {
-	blockEditor: {
-		RichText,
-	},
 	i18n: {
 		__
+	},
+	element: {
+		useState
+	},
+	blockEditor: {
+		RichText,
+		InnerBlocks,
+	},
+	components: {
+		ToggleControl
 	}
+	//  apiFetch
 } = wp;
 
 /**
@@ -27,6 +34,7 @@ const {
  */
 import ExampleBlockInspectorControls from './inspector-controls';
 import ExampleComponent from '../../components/example-component';
+import PropTypes from 'prop-types';
 
 /**
  * Tester edit component
@@ -35,8 +43,19 @@ import ExampleComponent from '../../components/example-component';
  */
 function ExampleBlockEdit( { setAttributes, attributes: { title, contentType } } ) {
 
+	const [ option, setOption ] = useState( 0 );
+
 	return (
 		<div className='tenup-blocks-content-list'>
+			<ToggleControl
+				key={'curate'}
+				label={__( 'Toggle to test useState()', 'katerra' )}
+				checked={option}
+				onChange={( option ) => {
+					setOption( option );
+					return option;
+				}}
+			/>
 			<RichText
 				tagName='h3'
 				multiline={ false }
@@ -44,7 +63,7 @@ function ExampleBlockEdit( { setAttributes, attributes: { title, contentType } }
 				value={ title }
 				onChange={ title => setAttributes( { title } ) }
 			/>
-			<pre>assets/js/blocks/example-block/index.js</pre>
+			<pre>assets/js/blocks/example-bock/index.js</pre>
 			<ExampleComponent contentType={ contentType } />
 			<ExampleBlockInspectorControls setAttributes={ setAttributes } contentType={ contentType } types={[
 				{
@@ -56,9 +75,20 @@ function ExampleBlockEdit( { setAttributes, attributes: { title, contentType } }
 					label: __( 'Page' ),
 				}
 			]} />
+			<InnerBlocks
+				allowedBlocks={ [ 'core/button', 'core/heading' ] }
+			/>
 		</div>
 	);
 }
+
+ExampleBlockEdit.propTypes = {
+	attributes: PropTypes.shape( {
+		title: PropTypes.string,
+		contentType: PropTypes.string,
+	} ),
+	setAttributes: PropTypes.func,
+};
 
 /**
  * Wrap component in React Hot Loader, if HMR is running.

@@ -72,7 +72,7 @@ module.exports = new Promise( ( resolve, reject ) => {
 					NODE_ENV: JSON.stringify( NODE_ENV ),
 				} ),
 				new StyleLintPlugin( {
-					context: path.resolve( __dirname, './assets/css/' ),
+					context: path.resolve( __dirname, './assets/css' ),
 					files: '**/*.css',
 				} ),
 			],

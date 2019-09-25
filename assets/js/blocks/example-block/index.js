@@ -2,11 +2,16 @@
  * Example Block
  *
  * @package TenUpScaffold
+ * @TODO This block can't contain HMR, only
  */
-
 /**
  * Dependencies
  */
+// Internal
+import edit from './edit';
+import {configProxy} from '../utils';
+// Example block CSS.
+import './index.css';
 // WordPress
 const {
 	i18n: {
@@ -15,27 +20,24 @@ const {
 	blocks: {
 		getBlockType,
 		registerBlockType,
-		unregisterBlockType
+		unregisterBlockType,
 	},
+	blockEditor: {
+		InnerBlocks
+	}
 } = wp;
-
 /**
- * Components
+ * Un-register/Register component.
  */
-import edit from './edit';
-
+/** @type {string} */
 const BLOCK_NAME = 'tenup/example-block';
-
-// Reload the block on edit (helps to avoid full page refresh when watching)
-if ( module.hot && getBlockType( BLOCK_NAME ) ) {
+if ( getBlockType( BLOCK_NAME ) ) {
 	unregisterBlockType( BLOCK_NAME );
 }
-
-registerBlockType(
-	BLOCK_NAME, {
-		title: __( 'Example Block' ),
-		description: __( '10up Theme Scaffold example block.' ),
-		category: 'test' === NODE_ENV ? 'common' : 'tenup',
+registerBlockType( BLOCK_NAME, configProxy( {
+	...{
+		description: __( '10up Thehkgvkhgme gg oui example.' ),
+		category: 'tenup',
 		icon: 'screenoptions',
 		attributes: {
 			title: {
@@ -47,8 +49,16 @@ registerBlockType(
 				default: 'post',
 			},
 		},
-		edit,
-		save: () => null,
-	}
-);
-
+	},
+	edit,
+	/**
+	 * @returns {*}
+	 */
+	save() {
+		return (
+			<div>
+				<InnerBlocks.Content />
+			</div>
+		);
+	},
+} ) );

@@ -45,7 +45,7 @@ module.exports = new Promise( ( resolve, reject ) => {
 					],
 				},
 				plugins: [
-					new BrowserSyncPlugin( wpTheme( 'browserSync' ) )
+					new BrowserSyncPlugin( browserSync )
 				],
 			} ),
 		);

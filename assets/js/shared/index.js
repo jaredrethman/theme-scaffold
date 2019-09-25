@@ -40,3 +40,7 @@ export default {
 	testFnTwo,
 	testFnThree
 };
+
+if( module.hot ){
+	module.hot.accept();
+}
