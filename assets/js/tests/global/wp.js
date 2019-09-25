@@ -13,8 +13,19 @@ import * as data from '@wordpress/data';
 import * as hooks from '@wordpress/hooks';
 import * as editor from '@wordpress/editor';
 import * as blocks from '@wordpress/blocks';
+import * as element from '@wordpress/element';
 import * as components from '@wordpress/components';
 import * as blockEditor from '@wordpress/block-editor';
+
+/**
+ * Component/BlocksEditor, since we're not interested
+ * in testing wp* packages, we'll need to stub out ones that cause
+ * issue during testing.
+ *
+ * @returns {*}
+ * @constructor
+ */
+import InnerBlocks from "../__mocks__/inner-blocks";
 
 /**
  * Export overridden wp object.
@@ -24,8 +35,14 @@ export default {
 	editor,
 	hooks,
 	blocks,
+	element,
 	components,
-	blockEditor,
+	blockEditor: {
+		...blockEditor,
+		...{
+			InnerBlocks
+		},
+	},
 	data: {
 		...data,
 		...{
