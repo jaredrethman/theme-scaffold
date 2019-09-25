@@ -11,7 +11,4 @@ module.exports = {
 		'@babel/preset-react',
 		'@wordpress/default'
 	],
-	plugins: [
-		'react-hot-loader/babel',
-	]
 };

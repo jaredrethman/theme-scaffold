@@ -55,6 +55,11 @@ module.exports = new Promise( ( resolve, reject ) => {
 									'babel-loader',
 									'eslint-loader',
 								]
+							},
+							{
+								test: /\.(js|jsx)$/,
+								use: 'react-hot-loader/webpack',
+								include: /node_modules/
 							}
 						],
 					},
